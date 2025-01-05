@@ -1,4 +1,4 @@
-export class Obstacle {
+export class Enemy {
     x: number;
     y: number;
     width: number = 30;
