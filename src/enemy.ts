@@ -19,7 +19,7 @@ export class Enemy {
             color: 'red',
             speed: 4,
             width: 30,
-            height: 20,
+            height: 30,
         },
     ];
     currentEnemy = this.enemiesDictionary[0];

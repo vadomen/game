@@ -1,5 +1,5 @@
 import { Airplane } from "./airplane";
-import { Bullet } from "./bullet";
+import { Ammunition } from "./ammunition";
 import { Enemy } from "./enemy";
 import { checkCollision } from "./utils/collision";
 import { canvasWidth, canvasHeight } from "./config";
@@ -14,8 +14,8 @@ const keys: { [key: string]: boolean } = {};
 
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
-    //if (e.key === "b" || e.key === "B") dropBomb();
-    if (e.key === " ") shootBullet();
+    if (e.key === "b" || e.key === "B") shoot('bomb');
+    if (e.key === " ") shoot('bullet');
 });
 
 document.addEventListener("keyup", (e) => {
@@ -24,13 +24,13 @@ document.addEventListener("keyup", (e) => {
 
 // Game variables
 const airplane = new Airplane();
-const bullets: Bullet[] = [];
+const ammunition: Ammunition[] = [];
 const enemies: Enemy[] = [];
 let score = 0;
 
 // Functions
-function shootBullet() {
-    bullets.push(new Bullet(airplane.x + airplane.width, airplane.y + airplane.height / 2));
+function shoot(ammunitionType: string) {
+    ammunition.push(new Ammunition(airplane.x + airplane.width, airplane.y + airplane.height / 2, ammunitionType));
 }
 
 function spawnEnemies() {
@@ -49,16 +49,16 @@ export function updateGame() {
     airplane.update(keys, canvas);
 
     // Draw, update, and remove bullets
-    bullets.forEach((bullet, index) => {
+    ammunition.forEach((bullet, index) => {
         bullet.update();
         bullet.draw(ctx);
 
         // Remove off-screen bullets
         if (bullet.x > canvas.width) {
-            bullets.splice(index, 1);
+            ammunition.splice(index, 1);
         }
         if (bullet.y > canvas.height) {
-            bullets.splice(index, 1);
+            ammunition.splice(index, 1);
         }
     });
 
@@ -74,10 +74,10 @@ export function updateGame() {
         }
 
         // Check collision with bullets
-        bullets.forEach((bullet, bulletIndex) => {
+        ammunition.forEach((bullet, bulletIndex) => {
             if (checkCollision(bullet, enemy)) {
                 enemies.splice(index, 1);
-                bullets.splice(bulletIndex, 1);
+                ammunition.splice(bulletIndex, 1);
                 score += 10;
             }
         });
