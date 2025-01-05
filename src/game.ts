@@ -2,17 +2,19 @@ import { Airplane } from "./airplane";
 import { Bullet } from "./bullet";
 import { Enemy } from "./enemy";
 import { checkCollision } from "./utils/collision";
+import { canvasWidth, canvasHeight } from "./config";
 
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
-canvas.width = 1000;
-canvas.height = 500;
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
 
 // Track keys
 const keys: { [key: string]: boolean } = {};
 
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
+    //if (e.key === "b" || e.key === "B") dropBomb();
     if (e.key === " ") shootBullet();
 });
 
@@ -31,11 +33,9 @@ function shootBullet() {
     bullets.push(new Bullet(airplane.x + airplane.width, airplane.y + airplane.height / 2));
 }
 
-function spawnEnemy() {
-    const y = Math.random() * (canvas.height - 30);
-    enemies.push(new Enemy(canvas.width, y));
+function spawnEnemies() {
+    enemies.push(new Enemy());
 }
-
 
 export function updateGame() {
     const ctx = canvas.getContext("2d");
@@ -95,4 +95,4 @@ export function updateGame() {
 }
 
 // Spawn obstacles every 2 seconds
-setInterval(spawnEnemy, 2000);
+setInterval(spawnEnemies, 2000);
