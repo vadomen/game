@@ -1,10 +1,25 @@
+export type AmmunitionType = 'bullet' | 'bomb';
+
+interface IAmmunitionDictionaryType {
+        type: AmmunitionType,
+        color: string,
+        speed: number,
+        width: number,
+        height: number,
+}
+
+interface IAmmunitionDictionary {
+    bullet: IAmmunitionDictionaryType;
+    bomb: IAmmunitionDictionaryType;
+}
+
 export class Ammunition {
     x: number;
     y: number;
     width: number = 10;
     height: number = 5;
     speed: number = 2;
-    ammunitionDictionary = {
+    ammunitionDictionary: IAmmunitionDictionary = {
         bullet: {
             type: 'bullet',
             color: 'grey',
@@ -20,15 +35,16 @@ export class Ammunition {
             height: 10,
         }
     };
-    currentAmmunition = this.ammunitionDictionary['bullet'];
+    currentAmmunition: IAmmunitionDictionaryType = this.ammunitionDictionary['bullet'];
 
-    constructor(x: number, y: number, ammunitionType: string) {
+    constructor(x: number, y: number, ammunitionType: AmmunitionType) {
         this.x = x;
         this.y = y;
-        // @ts-ignore
+
         this.currentAmmunition = this.ammunitionDictionary[ammunitionType];
         this.width = this.currentAmmunition.width;
         this.height = this.currentAmmunition.height;
+        this.speed = this.currentAmmunition.speed;
     }
 
     draw(ctx: CanvasRenderingContext2D) {
@@ -37,7 +53,7 @@ export class Ammunition {
     }
 
     update() {
-        if(this.currentAmmunition.type === 'bullet') this.x += this.currentAmmunition.speed;
-        if(this.currentAmmunition.type === 'bomb') this.y += this.currentAmmunition.speed;
+        if(this.currentAmmunition.type === 'bullet') this.x += this.speed;
+        if(this.currentAmmunition.type === 'bomb') this.y += this.speed;
     }
 }

@@ -1,5 +1,5 @@
 import { Airplane } from "./airplane";
-import { Ammunition } from "./ammunition";
+import { Ammunition, AmmunitionType } from "./ammunition";
 import { Enemy } from "./enemy";
 import { checkCollision } from "./utils/collision";
 import { canvasWidth, canvasHeight } from "./config";
@@ -14,11 +14,11 @@ const keys: { [key: string]: boolean } = {};
 
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
-    if (e.key === "b" || e.key === "B") shoot('bomb');
     if (e.key === " ") shoot('bullet');
 });
 
 document.addEventListener("keyup", (e) => {
+    if (e.key === "b" || e.key === "B") shoot('bomb');
     keys[e.key] = false;
 });
 
@@ -29,7 +29,7 @@ const enemies: Enemy[] = [];
 let score = 0;
 
 // Functions
-function shoot(ammunitionType: string) {
+function shoot(ammunitionType: AmmunitionType) {
     ammunition.push(new Ammunition(airplane.x + airplane.width, airplane.y + airplane.height / 2, ammunitionType));
 }
 
