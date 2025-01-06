@@ -33,6 +33,11 @@ export class Background {
         ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
+    drawGround(ctx: CanvasRenderingContext2D) {
+        ctx.fillStyle = "#733434";
+        ctx.fillRect(0, this.canvasHeight - 4, this.canvasWidth, this.canvasHeight);
+    }
+
     drawClouds(ctx: CanvasRenderingContext2D) {
         this.clouds.forEach((cloud) => {
             cloud.update();
@@ -51,6 +56,7 @@ export class Background {
         this.drawSky(ctx);
         this.drawClouds(ctx);
         this.drawTrees(ctx);
+        this.drawGround(ctx);
     }
 }
 
