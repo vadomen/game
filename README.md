@@ -1,6 +1,7 @@
-npm run build
-npm strat
-localhost:3000
+> npm run build
 
-heroku
-https://stormy-chamber-21015-8ff4a2fdb0c3.herokuapp.com/
+> npm start
+
+> localhost:3000
+
+**Heroku url:** https://stormy-chamber-21015-8ff4a2fdb0c3.herokuapp.com/

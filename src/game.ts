@@ -3,11 +3,14 @@ import { Ammunition, AmmunitionType } from "./ammunition";
 import { Enemy } from "./enemy";
 import { checkCollision } from "./utils/collision";
 import { canvasWidth, canvasHeight } from "./config";
+import { Background } from "./environment/background";
 
 const canvas = document.createElement("canvas");
 document.body.appendChild(canvas);
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
+
+const background = new Background(canvas.width, canvas.height);
 
 // Track keys
 const keys: { [key: string]: boolean } = {};
@@ -45,6 +48,9 @@ export function updateGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw and update airplane
+    background.draw(ctx);
+
+    // Draw and update airplane
     airplane.draw(ctx);
     airplane.update(keys, canvas);
 
@@ -75,7 +81,7 @@ export function updateGame() {
 
         // Check collision with bullets
         ammunition.forEach((bullet, bulletIndex) => {
-            if (checkCollision(bullet, enemy)) {
+            if (checkCollision(bullet, enemy)) { // TODO: the bombs should not destroy enemy planes
                 enemies.splice(index, 1);
                 ammunition.splice(bulletIndex, 1);
                 score += 10;
