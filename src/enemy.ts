@@ -5,29 +5,32 @@ export class Enemy {
     y: number;
     width: number = 60;
     height: number = 60;
+    imageTank: HTMLImageElement;
 
     enemiesDictionary = [
         {
             type: 'tank',
-            color: 'green',
             speed: 1,
-            width: 60,
-            height: 30,
+            width: 70,
+            height: 34,
+            src: "/assets/img/tank_70_34.png",
         },
         {
             type: 'plane',
-            color: 'red',
             speed: 4,
             width: 30,
             height: 30,
+            src: "/assets/img/tank_70_34.png",
         },
     ];
     currentEnemy = this.enemiesDictionary[0];
 
     constructor() {
         this.currentEnemy = this.enemiesDictionary[Math.round(Math.random())]; // random 0 tank || 1 = plane
+        this.imageTank = new Image();
+        this.imageTank.src = this.currentEnemy.src;
+        this.y = canvasHeight - 34;
         this.x = canvasWidth;
-        this.y = canvasHeight - 30;
         this.width = this.currentEnemy.width;
         this.height = this.currentEnemy.height;
         this.generateEnemy();
@@ -35,7 +38,7 @@ export class Enemy {
 
     private generateEnemy(){
         if(this.currentEnemy.type === 'tank') {
-            this.y = canvasHeight - 30;
+            this.y = canvasHeight - 34;
         }
         if(this.currentEnemy.type === 'plane') {
             this.y = Math.random() * (canvasHeight - 90);
@@ -43,8 +46,7 @@ export class Enemy {
     }
 
     draw(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle = this.currentEnemy.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.imageTank, this.x, this.y, this.width, this.height);
     }
 
     update() {
