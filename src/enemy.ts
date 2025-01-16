@@ -18,9 +18,9 @@ export class Enemy {
         {
             type: 'plane',
             speed: 4,
-            width: 30,
+            width: 60,
             height: 30,
-            src: "/assets/img/tank_70_34.png",
+            src: "/assets/img/enemy_plane.png",
         },
     ];
     currentEnemy = this.enemiesDictionary[0];
