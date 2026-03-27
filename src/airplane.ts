@@ -1,15 +1,12 @@
-export class Airplane {
-    x: number = 50;
-    y: number = 200;
-    width: number = 60;
-    height: number = 30;
-    speed: number = 5;
+import { AssetManager } from "./utils/assets";
+import { GameObject } from "./gameObject";
+
+export class Airplane extends GameObject {
     image: HTMLImageElement;
-    // loaded: boolean = false;
 
     constructor() {
-        this.image = new Image();
-        this.image.src = "/assets/img/plane.png";
+        super(50, 200, 60, 30, 5);
+        this.image = AssetManager.getImage("plane");
     }
 
     draw(ctx: CanvasRenderingContext2D) {

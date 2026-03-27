@@ -10,7 +10,19 @@ document.body.appendChild(canvas);
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
 
-const background = new Background(canvas.width, canvas.height);
+// Game variables
+let background: Background;
+let airplane: Airplane;
+let ammunition: Ammunition[] = [];
+let enemies: Enemy[] = [];
+let score = 0;
+let enemySpawnTimer = 0;
+const ENEMY_SPAWN_INTERVAL = 2000;
+
+export function initGame() {
+    background = new Background(canvas.width, canvas.height);
+    airplane = new Airplane();
+}
 
 // Track keys
 const keys: { [key: string]: boolean } = {};
@@ -25,14 +37,9 @@ document.addEventListener("keyup", (e) => {
     keys[e.key] = false;
 });
 
-// Game variables
-const airplane = new Airplane();
-const ammunition: Ammunition[] = [];
-const enemies: Enemy[] = [];
-let score = 0;
-
 // Functions
 function shoot(ammunitionType: AmmunitionType) {
+    if (!airplane) return;
     ammunition.push(new Ammunition(airplane.x + airplane.width, airplane.y + airplane.height / 2, ammunitionType));
 }
 
@@ -40,11 +47,19 @@ function spawnEnemies() {
     enemies.push(new Enemy());
 }
 
-export function updateGame() {
+export function updateGame(dt: number) {
+    if (!airplane || !background) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) {
         throw new Error("Failed to get CanvasRenderingContext2D");
     }
+
+    enemySpawnTimer += dt;
+    if (enemySpawnTimer > ENEMY_SPAWN_INTERVAL) {
+        spawnEnemies();
+        enemySpawnTimer = 0;
+    }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw and update airplane
@@ -99,6 +114,3 @@ export function updateGame() {
     ctx.font = "20px Arial";
     ctx.fillText(`Score: ${score}`, 10, 30);
 }
-
-// Spawn obstacles every 2 seconds
-setInterval(spawnEnemies, 2000);

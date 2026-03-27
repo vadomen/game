@@ -1,3 +1,5 @@
+import { GameObject } from "./gameObject";
+
 export type AmmunitionType = 'bullet' | 'bomb';
 
 interface IAmmunitionDictionaryType {
@@ -8,43 +10,30 @@ interface IAmmunitionDictionaryType {
         height: number,
 }
 
-interface IAmmunitionDictionary {
-    bullet: IAmmunitionDictionaryType;
-    bomb: IAmmunitionDictionaryType;
-}
+const ammunitionDictionary: Record<AmmunitionType, IAmmunitionDictionaryType> = {
+    bullet: {
+        type: 'bullet',
+        color: 'grey',
+        speed: 4,
+        width: 10,
+        height: 5,
+    },
+    bomb: {
+        type: 'bomb',
+        color: 'red',
+        speed: 1,
+        width: 5,
+        height: 10,
+    }
+};
 
-export class Ammunition {
-    x: number;
-    y: number;
-    width: number = 10;
-    height: number = 5;
-    speed: number = 2;
-    ammunitionDictionary: IAmmunitionDictionary = {
-        bullet: {
-            type: 'bullet',
-            color: 'grey',
-            speed: 4,
-            width: 10,
-            height: 5,
-        },
-        bomb: {
-            type: 'bomb',
-            color: 'red',
-            speed: 1,
-            width: 5,
-            height: 10,
-        }
-    };
-    currentAmmunition: IAmmunitionDictionaryType = this.ammunitionDictionary['bullet'];
+export class Ammunition extends GameObject {
+    currentAmmunition: IAmmunitionDictionaryType;
 
     constructor(x: number, y: number, ammunitionType: AmmunitionType) {
-        this.x = x;
-        this.y = y;
-
-        this.currentAmmunition = this.ammunitionDictionary[ammunitionType];
-        this.width = this.currentAmmunition.width;
-        this.height = this.currentAmmunition.height;
-        this.speed = this.currentAmmunition.speed;
+        const ammoInfo = ammunitionDictionary[ammunitionType];
+        super(x, y, ammoInfo.width, ammoInfo.height, ammoInfo.speed);
+        this.currentAmmunition = ammoInfo;
     }
 
     draw(ctx: CanvasRenderingContext2D) {
