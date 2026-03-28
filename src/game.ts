@@ -96,7 +96,8 @@ export function updateGame(dt: number) {
 
         // Check collision with bullets
         ammunition.forEach((bullet, bulletIndex) => {
-            if (checkCollision(bullet, enemy)) { // TODO: the bombs should not destroy enemy planes
+            const isBombHittingPlane = bullet.currentAmmunition.type === 'bomb' && enemy.currentEnemy.type === 'plane';
+            if (checkCollision(bullet, enemy) && !isBombHittingPlane) { // bombs should not destroy enemy planes
                 enemies.splice(index, 1);
                 ammunition.splice(bulletIndex, 1);
                 score += 10;
